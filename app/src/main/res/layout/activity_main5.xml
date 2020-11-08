@@ -50,13 +50,4 @@
         app:layout_constraintStart_toStartOf="@+id/fileName"
         app:layout_constraintTop_toTopOf="@+id/fileName" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="200dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/fileName"
-        app:layout_constraintTop_toTopOf="@+id/fileName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

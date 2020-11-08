@@ -29,7 +29,6 @@ public class MainActivity5 extends AppCompatActivity {
     private TextInputEditText file;
     private TextInputEditText inputKey;
     private Button buttonOk;
-    private TextView text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +37,6 @@ public class MainActivity5 extends AppCompatActivity {
         file=findViewById(R.id.file);
         inputKey=findViewById(R.id.key);
         buttonOk=findViewById(R.id.button5);
-        text=findViewById(R.id.textView);
         final boolean boolImp = getIntent().getExtras().getBoolean("result");
         if (boolImp)
         {
@@ -66,15 +64,34 @@ public class MainActivity5 extends AppCompatActivity {
                     }
                     else {
                         try {
-                            String line;
-                            String line2 = "";
-                            while ((line = bw2.readLine()) != null) {
-                                line2 = line2.concat(line);
+                            String tmpLine;
+                            String line = "";
+                            while ((tmpLine = bw2.readLine()) != null) {
+                                line = line.concat(tmpLine);
                             }
-                            text.setText(line2);
+                            String manyStr[]=line.split(";");
+                            dbSQL.delete_table("table1");
+                            dbSQL.createTable();
+                            for(int i=0; i<manyStr.length; i++)
+                            {
+                                Log.d("line", manyStr[i]);
+                                String oneStr[]=manyStr[i].split(",");
+                                String decRes=SharedClass.Decrypt(oneStr[0], keyIn);
+                                String decLog=SharedClass.Decrypt(oneStr[1], keyIn);
+                                String decPass=SharedClass.Decrypt(oneStr[2], keyIn);
+                                String decNot=SharedClass.Decrypt(oneStr[3], keyIn);
+                                String encRes=SharedClass.Encrypt(decRes, SharedClass.key);
+                                String encLog=SharedClass.Encrypt(decLog, SharedClass.key);
+                                String encPass=SharedClass.Encrypt(decPass, SharedClass.key);
+                                String encNot=SharedClass.Encrypt(decNot, SharedClass.key);
+                                dbSQL.insertRow(encRes, encLog, encPass, encNot);
+                            }
+
                         } catch (IOException e) {
                             e.printStackTrace();
                             Log.d("Error", "READ BW2");
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
 
                         try {
@@ -95,6 +112,7 @@ public class MainActivity5 extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     Cursor newtable = dbSQL.getFullTable("table1", new String[]{"_id", "RESOURCE", "LOGIN", "PASSWORD", "NOTES"});
+                    String tmpStr=null;
                     if (newtable.moveToFirst()) {
                         while (!newtable.isAfterLast()) {
                             int id = newtable.getInt(0);
@@ -102,12 +120,11 @@ public class MainActivity5 extends AppCompatActivity {
                             String log = newtable.getString(2);
                             String pass = newtable.getString(3);
                             String not = newtable.getString(4);
-                            String str = res.concat(",").concat(log).concat(",").concat(pass).concat(",").concat(not);
+                            tmpStr=res.concat(",").concat(log).concat(",").concat(pass).concat(",").concat(not).concat(";");
                             try {
-                                bw.write(str);
+                                bw.append(tmpStr);
                             } catch (IOException e) {
                                 e.printStackTrace();
-                                Log.d("Error", "WRITE BW");
                             }
                             newtable.moveToNext();
                         }
