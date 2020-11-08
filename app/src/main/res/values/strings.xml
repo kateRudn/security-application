@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Security_app</string>
+    <string name="save">save</string>
+    <string name="resource">Resource:</string>
+    <string name="login">Login:</string>
+    <string name="password">Password:</string>
+    <string name="notes">Notes:</string>
+    <string name="ok">ok</string>
+    <string name="delete">delete</string>
+    <string name="change_password">Change password</string>
+    <string name="export_">Export</string>
+    <string name="import_">Import</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
+    <string name="new_password_again">New password again</string>
+    <string name="edit">edit</string>
+    <string name="hint">hint</string>
+    <string name="file_name">File name</string>
+    <string name="password_">Password</string>
+    <string name="input_new_password">Input new password</string>
+    <string name="input_new_password_again">Input new password again</string>
+</resources>
